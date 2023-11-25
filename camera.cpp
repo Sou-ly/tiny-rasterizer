@@ -2,6 +2,14 @@
 
 namespace trz
 {
+    void camera::set_position(vec3 position) {
+        pos = position;
+    }
+
+    void camera::set_direction(vec3 direction) {
+        dir = direction;
+    }
+
     void camera::set_orthographic_projection(float left, float right, float top, float bottom, float near, float far)
     {
         projMatrix = {{0}};
@@ -23,6 +31,14 @@ namespace trz
         projMatrix.m[2][2] = far / (far - near);
         projMatrix.m[2][3] = -near * far / (far - near);
         projMatrix.m[2][3] = 1.f;
+    }
+
+    vec3 camera::position() {
+        return pos;
+    }
+
+    vec3 camera::direction() {
+        return dir;
     }
 
     mat4 camera::projection() {

@@ -35,6 +35,8 @@ int main()
     float aspect_ratio = width / height;
     float vertical_field_of_view = 1.f;
     trz::camera camera;
+    camera.set_direction({0.f, 0.f, 1.f});
+    camera.set_position({0.f, 0.f, 0.f});
     // camera.set_orthographic_projection(-1, 1, -1, 1, -1, 1);
     camera.set_perspective_projection(vertical_field_of_view, 0.1f, 100.f);
 
@@ -82,13 +84,19 @@ int main()
         {
             // model + view transformations
             trz::triangle transformed;
-            for (int i = 0; i < 3; i++)
+            transformed.normal = rotZ * triangle.normal;
+            transformed.normal = rotX * transformed.normal;
+            if (transformed.normal.z < 0.f)
             {
-                transformed.p[i] = rotZ * triangle.p[i];
-                transformed.p[i] = (camera.projection() * (rotX * transformed.p[i]));
-                transformed.p[i] = transformed.p[i] + screen_center;
+                // facing the camera
+                for (int i = 0; i < 3; i++)
+                {
+                    transformed.p[i] = rotZ * triangle.p[i];
+                    transformed.p[i] = (camera.projection() * (rotX * transformed.p[i]));
+                    transformed.p[i] = transformed.p[i] + screen_center;
+                }
+                draw_triangle(renderer, transformed);
             }
-            draw_triangle(renderer, transformed);
         }
 
         // Update the display
