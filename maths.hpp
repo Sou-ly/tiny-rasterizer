@@ -1,4 +1,10 @@
+#pragma once
+
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <math.h>
 
 namespace trz {
     
@@ -21,6 +27,8 @@ namespace trz {
             return res;
         }
     };
+
+    vec3 normalizeVec(vec3 vec);
 
     struct mat3 {
         float m[3][3];
@@ -70,6 +78,7 @@ namespace trz {
 
     struct triangle {
         vec3 p[3];
+        vec3 normal;
     };
 
     struct mesh {
